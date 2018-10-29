@@ -14,13 +14,31 @@ template<class T>
 Polynomial<T>& Polynomial<T>::unique()
 {
 	this->sort();
-	for(auto it = this->begin(), prev = it++; it != this->end(); ++it, ++prev)	
+	for(auto it = this->begin(), prev = it++; it != this->end(); ++it, ++prev)
 		if(Monomial<T>::similar(*prev, *it))
 		{
 			prev->coff += it->coff;
 			this->erase(it++);
 		}
+	for(auto it = this->begin(); it != this->end(); ++it)
+		if(it->coff == 0) this->erase(it++);
 	return *this;
+}
+
+template<class T>
+Polynomial<T> Polynomial<T>::diff()const
+{
+	Polynomial<T> result;
+	for(auto it = this->begin(); it != this->end(); ++it)
+	{
+		if(it->power == 0) continue;
+		else
+		{
+			Monomial<T> temp(it->coff * it->power, it->power - 1);
+			result.push_back(temp);
+		}
+	}
+	return result;
 }
 
 template<class T>
@@ -30,7 +48,9 @@ Polynomial<T> Polynomial<T>::multiply(const Polynomial<T>& P1, const Polynomial<
 	Polynomial<T> result;
 	for(auto it = P1.begin(); it != P1.end(); ++it)
 		for(auto jt = P2.begin(); jt != P2.end(); ++jt)
+		{
 			result.push_back((*it) * (*jt));
+		}
 	return result.unique();
 }
 

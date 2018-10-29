@@ -20,6 +20,7 @@ public:
 	inline Polynomial& substract(const Polynomial& other){ return this->merge( -other ); }
 	Polynomial& merge(Polynomial other);
 	Polynomial& unique();
+	Polynomial diff()const;
 	//static method
 	static Polynomial multiply(const Polynomial& P1, const Polynomial& P2);
 	// mathmatic operator
@@ -28,6 +29,7 @@ public:
 	Polynomial operator+(const Polynomial<T>& other)const{ return Polynomial(*this).add(other); }
 	Polynomial operator-(const Polynomial<T>& other)const{ return Polynomial(*this).substract(other); }
 	Polynomial operator*(const Polynomial<T>& other){ return multiply(*this, other); }
+	//Polynomial operator/(const Polynomial<T>& other){}
 	Polynomial operator-()const;
 	// convert operator
 	operator std::string()const;
@@ -48,5 +50,3 @@ std::istream& operator>>(std::istream& in, const Polynomial<T>& P){
 }
 
 #endif // POLYNOMIAL_H
-
-

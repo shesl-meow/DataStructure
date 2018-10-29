@@ -13,7 +13,7 @@ int main(int argv, char*argc[]){
     std::stringstream ss;
     for(int i = 1; i < argv; ++i)
         ss << std::string(argc[i]) << "\n";
-    
+
     Polynomial<double> P1, P2;
     readin(&P1, ss);
     readin(&P2, ss);
@@ -44,4 +44,6 @@ inline void testop(Polynomial<T> P1, Polynomial<T> P2)
     std::cout << "P1+P2:\t" << P1+P2 << std::endl;
     std::cout << "P1-P2:\t" << P1-P2 << std::endl;
     std::cout << "P1*P2:\t" << P1*P2 << std::endl;
+    std::cout << "diff(P1):\t" << P1.diff() <<std::endl;
+    std::cout << "diff(P2):\t" << P2.diff() <<std::endl;
 }
