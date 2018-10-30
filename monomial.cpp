@@ -5,12 +5,8 @@
 template<class T>
 inline Monomial<T>& Monomial<T>::multiply(const Monomial<T>& other)
 {
-    if(this->sign != other.sign){
-        throw std::invalid_argument("Can't multiply monomial with different sign symbol.");
-    }else{
-        this->coff *= other.coff;
-        this->power += other.power;
-    }
+    this->coff *= other.coff;
+    this->power += other.power;
     return *this;
 }
 

@@ -26,3 +26,4 @@ do
 	echo "" >> data/int_output.txt
 	echo "-----------------------------------------------"
 done
+typora data/int_output.txt &

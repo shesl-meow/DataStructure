@@ -39,11 +39,14 @@ template<typename T>
 inline void testop(Polynomial<T> P1, Polynomial<T> P2)
 {
     P1.unique(), P2.unique();
-    std::cout << "P1:\t" << P1 << std::endl;
-    std::cout << "P2:\t" << P2 << std::endl;
-    std::cout << "P1+P2:\t" << P1+P2 << std::endl;
-    std::cout << "P1-P2:\t" << P1-P2 << std::endl;
-    std::cout << "P1*P2:\t" << P1*P2 << std::endl;
-    std::cout << "diff(P1):\t" << P1.diff() <<std::endl;
-    std::cout << "diff(P2):\t" << P2.diff() <<std::endl;
+    std::cout << "|operator|result|" << std::endl << "|:--:|:--:|" << std::endl;
+    std::cout << "|P1:|$$" << P1 << "$$|" << std::endl;
+    std::cout << "|P2:|$$" << P2 << "$$|" << std::endl;
+    std::cout << "|P1+P2:|$$" << P1+P2 << "$$|" << std::endl;
+    std::cout << "|P1-P2:|$$" << P1-P2 << "$$|" << std::endl;
+    std::cout << "|P1*P2:|$$" << P1*P2 << "$$|" << std::endl;
+    std::cout << "|P1/P2:|$$" << P1/P2 << "$$|" << std::endl;
+    std::cout << "|P1\%P2:|$$" << P1%P2 << "$$|" << std::endl;
+    std::cout << "|P1'(x):|$$" << P1.diff() << "$$|" << std::endl;
+    std::cout << "|P2'(x):|$$" << P2.diff() << "$$|" << std::endl;
 }
