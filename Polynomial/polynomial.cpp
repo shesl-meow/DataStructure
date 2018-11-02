@@ -101,12 +101,6 @@ typename Polynomial<T>::DivResult Polynomial<T>::divide(Polynomial P1, Polynomia
 	}
 
 	for(auto it = P1.begin(); it != P1.end(); ++it) *it = (*it)/temp;
-	// {
-	// 	std::cout << *it << std::endl;
-	// 	*it = (*it)/temp;
-	// 	std::cout << *it << std::endl;
-	// 	while(1);
-	// }
 	for(auto it = quotient.begin(); it != quotient.end(); ++it) *it = (*it)/temp;
 	return DivResult(quotient, P1);
 }
