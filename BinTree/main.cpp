@@ -1,6 +1,5 @@
 #include <iostream>
-#include "BinTree.h"
-#include "DisplayMap.h"
+#include "Tree.h"
 
 int main(){
   std::cout << "Hello World!" << std::endl;
@@ -14,11 +13,8 @@ int main(){
   std::cout << test_t1.depth() << std::endl;
   std::cout << test_t3.depth() << std::endl;
   std::cout << test_t3.count_node_number() << std::endl;
-  //std::cout << "[1] Hello!" << std::endl;
-  DisplayMap::BinTreeMap<double> btm(&test_t3);
-  //std::cout << "[2] Hello!" << std::endl;
-  std::cout << btm << std::endl;
-  test_t2.display(std::cout);
-  //std::cout << "[3] Hello!" << std::endl; 
+
+  std::cout << test_t2 << std::endl;
+  //std::cout << "[3] Hello!" << std::endl;
   return 0;
 }

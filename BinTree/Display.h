@@ -1,12 +1,15 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include "BinTree.h"
+#include <exception>
+#include <stdexcept>
+#include <sstream>
+#include "Tree.h"
 
 typedef unsigned int uint;
 
 // used to display a string map
-namespace DisplayMap{
+namespace Display{
   class DisplayMap{
   protected:
     std::string **string_map;
@@ -31,9 +34,9 @@ namespace DisplayMap{
   class BinTreeMap: public DisplayMap{
   protected:
     uint root_row = 0;
-    const BinTree<T> * bind_tree = nullptr;
+    const Tree::BinTree<T> * bind_tree = nullptr;
   public:
-    BinTreeMap(const BinTree<T> *tree, std::string default_string = "  ");
+    BinTreeMap(const Tree::BinTree<T> *tree, std::string default_string = "  ");
     ~BinTreeMap(){}
     uint get_map_width()const{ return this->bind_tree->count_node_number(); }
     uint get_map_depth()const{ return this->bind_tree->depth()*2 - 1; }
@@ -42,3 +45,4 @@ namespace DisplayMap{
 }
 
 #include "DisplayMap.tpp"
+#include "BinTreeMap.tpp"
