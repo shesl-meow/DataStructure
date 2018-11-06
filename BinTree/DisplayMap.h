@@ -15,7 +15,10 @@ namespace DisplayMap{
   public:
     DisplayMap(std::string default_string = "0");
     DisplayMap(uint r, uint c, std::string dflt = "  ");
+    DisplayMap(const DisplayMap& dm);
     ~DisplayMap();
+    uint get_row_size()const{ return this->row; }
+    uint get_column_size()const{ return this->column; }
     void resize(uint r, uint c);
     void set_map_node(uint r, uint c, std::string data){ this->string_map[r][c] = data; }
     void set_map_row(uint r, std::string str);
@@ -31,9 +34,10 @@ namespace DisplayMap{
     const BinTree<T> * bind_tree = nullptr;
   public:
     BinTreeMap(const BinTree<T> *tree, std::string default_string = "  ");
-    uint get_map_width()const;
+    ~BinTreeMap(){}
+    uint get_map_width()const{ return this->bind_tree->count_node_number(); }
     uint get_map_depth()const{ return this->bind_tree->depth()*2 - 1; }
-    void draw()const;
+    void draw();
   };
 }
 
