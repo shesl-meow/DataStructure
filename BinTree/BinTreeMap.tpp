@@ -28,7 +28,7 @@ void BinTreeMap<T>::draw(){
   }
   this->root_row = (lft_map == nullptr) ? 0 : lft_map->row;
   std::stringstream ss;
-  ss << this->bind_tree->get_self_node();
+  ss << this->bind_tree->get_self_data();
 
   // begin to draw the tree branch
   if(lft_map != nullptr)

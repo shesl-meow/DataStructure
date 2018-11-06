@@ -72,6 +72,7 @@ void DisplayMap::set_sub_area(uint x, uint y, DisplayMap* submap){
 
 DisplayMap::operator std::string()const{
   std::stringstream ss;
+  ss << std::endl;
   for(uint i = 0; i < this->row; ++i){
     for(uint j = 0; j < this->column; ++j) ss << this->string_map[i][j];
     ss << std::endl;

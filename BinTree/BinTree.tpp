@@ -5,31 +5,30 @@ using namespace Tree;
 typedef unsigned int uint;
 
 template<class T>
-BinTree<T>::BinTree(const BinTree<T>& tree)
-{
-  this->data = tree.data;
-  if(tree.has_left_child()) this->lftChild = new BinTree<T>(*(tree.get_left_tree()));
-  if(tree.has_right_child()) this->rgtChild = new BinTree<T>(*(tree.get_right_tree()));
-}
-
-template<class T>
-const BinTree<T>* BinTree<T>::get_spec_node(std::string path, char lc, char rc)const
-{
+BinTree<T>* BinTree<T>::node(std::string path, char lc, char rc){
   auto res = this;
   std::string used_path = "";
   for(auto it = path.begin(); it != path.end(); ++it)
   {
     if(*it == lc){
       used_path += lc;
-      if(res->has_left_child()) res = res.get_left_tree();
+      if(res->has_left_child()) res = res->lftChild;
       else throw std::logic_error("Left child doesn't exsit at request: " + used_path);
     }else if(*it == rc){
       used_path += rc;
-      if(res->has_right_child()) res = res.get_right_tree();
+      if(res->has_right_child()) res = res->rgtChild;
       else throw std::logic_error("Right child doesn't exsit at request: " + used_path);
     }else throw std::logic_error("Request path character is illegal.");
   }
   return res;
+}
+
+template<class T>
+BinTree<T>::BinTree(const BinTree<T>& tree)
+{
+  this->data = tree.data;
+  if(tree.has_left_child()) this->lftChild = new BinTree<T>(*(tree.get_left_tree()));
+  if(tree.has_right_child()) this->rgtChild = new BinTree<T>(*(tree.get_right_tree()));
 }
 
 template<class T>
@@ -51,20 +50,7 @@ void BinTree<T>::update_right_tree(const BinTree<T>& rgt_t)
 template<class T>
 void BinTree<T>::update_spec_node(std::string path, T val, char lc, char rc)
 {
-  auto target = this;
-  std::string used_path = "";
-  for(auto it = path.begin(); it != path.end(); ++it)
-  {
-    if(*it == lc){
-      used_path += lc;
-      if(target->has_left_child()) target = target.get_left_tree();
-      else throw std::logic_error("Left child doesn't exsit at request: " + used_path);
-    }else if(*it == rc){
-      used_path += rc;
-      if(target->has_right_child()) target = target.get_right_tree();
-      else throw std::logic_error("Right child doesn't exsit at request: " + used_path);
-    }else throw std::logic_error("Request path character is illegal.");
-  }
+  auto target = this->node(path, lc, rc);
   target->data = val;
 }
 
@@ -87,22 +73,9 @@ void BinTree<T>::insert_right_tree(const BinTree<T>& rgt_t)
 template<class T>
 void BinTree<T>::insert_spec_node(std::string path, T val, char lc, char rc)
 {
-  auto parent = this;
-  std::string used_path = "", p_path = path.substr(0, path.size()-1);
-  for(auto it = p_path.begin(); it != p_path.end(); ++it)
-  {
-    if(*it == lc){
-      used_path += lc;
-      if(parent->has_left_child()) parent = parent.get_left_tree();
-      else throw std::logic_error("Can't insert node without parent: " + used_path);
-    }else if(*it == rc){
-      used_path += rc;
-      if(parent->has_right_child()) parent = parent.get_right_tree();
-      else throw std::logic_error("Can't insert node without parent: " + used_path);
-    }else throw std::logic_error("Request path character is illegal.");
-  }
-  if(path.back() == lc) parent->insert_left_tree();
-  else if(path.back() == rc) parent->insert_right_tree();
+  auto parent = this->node(path.substr(0, path.size()-1), lc, rc);
+  if(path.back() == lc) parent->insert_left_tree(val);
+  else if(path.back() == rc) parent->insert_right_tree(val);
   else throw std::logic_error("Request path character is illegal.");
 }
 
@@ -133,6 +106,90 @@ void BinTree<T>::release_right_tree()
     delete this->rgtChild;
     this->rgtChild = nullptr;
   }else throw std::logic_error("Release right tree doesn't exsit!");
+}
+
+template<class T>
+void BinTree<T>::release_spec_node(std::string path, char lc, char rc)
+{
+  auto target = this;
+  std::string used_path = "";
+  for(auto it = path.begin(); it != path.end(); ++it)
+  {
+    if(*it == lc){
+      used_path += lc;
+      if(target->has_left_child()) target = target.get_left_tree();
+      else throw std::logic_error("Left child doesn't exsit at request: " + used_path);
+    }else if(*it == rc){
+      used_path += rc;
+      if(target->has_right_child()) target = target.get_right_tree();
+      else throw std::logic_error("Right child doesn't exsit at request: " + used_path);
+    }else throw std::logic_error("Request path character is illegal.");
+  }
+  target->release_self_node();
+}
+
+template<class T>
+std::list< BinTree<T> > BinTree<T>::get_all_node()const
+{
+  std::list< BinTree<T> > result;
+  if(this->has_left_child()){
+    auto lft_t = this->get_left_tree()->get_all_node();
+    result.insert(result.end(), lft_t.begin(), lft_t.end());
+  }
+  result.push_back(BinTree<T>(this->get_self_data()));
+  if(this->has_right_child()){
+    auto rgt_t = this->get_right_tree()->get_all_node();
+    result.insert(result.end(), rgt_t.begin(), rgt_t.end());
+  }
+  return result;
+}
+
+template<class T>
+std::list<T> BinTree<T>::pre_order_traverse()const
+{
+  std::list<T> result;
+  if(this->has_left_child()){
+    auto lft_t = this->get_left_tree()->pre_order_traverse();
+    result.insert(result.end(), lft_t.begin(), lft_t.end());
+  }
+  result.push_back(this->get_self_data());
+  if(this->has_right_child()){
+    auto rgt_t = this->get_right_tree()->pre_order_traverse();
+    result.insert(result.end(), rgt_t.begin(), rgt_t.end());
+  }
+  return result;
+}
+
+template<class T>
+std::list<T> BinTree<T>::mid_order_traverse()const
+{
+  std::list<T> result;
+  result.push_back(this->get_self_data());
+  if(this->has_left_child()){
+    auto lft_t = this->get_left_tree()->mid_order_traverse();
+    result.insert(result.end(), lft_t.begin(), lft_t.end());
+  }
+  if(this->has_right_child()){
+    auto rgt_t = this->get_right_tree()->mid_order_traverse();
+    result.insert(result.end(), rgt_t.begin(), rgt_t.end());
+  }
+  return result;
+}
+
+template<class T>
+std::list<T> BinTree<T>::post_order_traverse()const
+{
+  std::list<T> result;
+  if(this->has_left_child()){
+    auto lft_t = this->get_left_tree()->post_order_traverse();
+    result.insert(result.end(), lft_t.begin(), lft_t.end());
+  }
+  if(this->has_right_child()){
+    auto rgt_t = this->get_right_tree()->post_order_traverse();
+    result.insert(result.end(), rgt_t.begin(), rgt_t.end());
+  }
+  result.push_back(this->get_self_data());
+  return result;
 }
 
 template<class T>
