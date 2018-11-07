@@ -23,12 +23,13 @@ BinTree<T>* BinTree<T>::node(std::string path, char lc, char rc){
   return res;
 }
 
+using namespace std;
 template<class T>
 BinTree<T>::BinTree(const BinTree<T>& tree)
 {
   this->data = tree.data;
-  if(tree.has_left_child()) this->lftChild = new BinTree<T>(*(tree.get_left_tree()));
-  if(tree.has_right_child()) this->rgtChild = new BinTree<T>(*(tree.get_right_tree()));
+  if(tree.has_left_child()) this->insert_left_tree( *(tree.get_left_tree()) );
+  if(tree.has_right_child()) this->insert_right_tree( *(tree.get_right_tree()) );
 }
 
 template<class T>
@@ -126,22 +127,6 @@ void BinTree<T>::release_spec_node(std::string path, char lc, char rc)
     }else throw std::logic_error("Request path character is illegal.");
   }
   target->release_self_node();
-}
-
-template<class T>
-std::list< BinTree<T> > BinTree<T>::get_all_node()const
-{
-  std::list< BinTree<T> > result;
-  if(this->has_left_child()){
-    auto lft_t = this->get_left_tree()->get_all_node();
-    result.insert(result.end(), lft_t.begin(), lft_t.end());
-  }
-  result.push_back(BinTree<T>(this->get_self_data()));
-  if(this->has_right_child()){
-    auto rgt_t = this->get_right_tree()->get_all_node();
-    result.insert(result.end(), rgt_t.begin(), rgt_t.end());
-  }
-  return result;
 }
 
 template<class T>

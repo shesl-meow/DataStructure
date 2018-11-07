@@ -43,7 +43,6 @@ namespace Tree{
     void release_right_tree();
     void release_spec_node(std::string path, char lc = 'L', char rc = 'R');
     // traverse function: prev, mid and post order.
-    std::list< BinTree<T> > get_all_node()const; // prev method.
     std::list<T> pre_order_traverse()const;
     std::list<T> mid_order_traverse()const;
     std::list<T> post_order_traverse()const;
@@ -66,14 +65,16 @@ namespace Tree{
     std::list< BinTree<T> > tree_lst = {};
   public:
     HuffmanTree(){};
-    HuffmanTree(const std::list< BinTree<T> >& lst): tree_lst(lst){ this->gnr_huffman_tree(); };
-    HuffmanTree(const std::list<T>& lst);
-    HuffmanTree(const HuffmanTree<T>& hft): BinTree<T>(hft){}
-    HuffmanTree(const BinTree<T>& bt): BinTree<T>(bt){}
+    HuffmanTree(const std::list<T>& lst){ this->convert_from_list(lst); }
+    HuffmanTree(const BinTree<T>& bt);
     ~HuffmanTree(){this->tree_lst.clear();}
 
-    void gnr_huffman_tree();
-    void gnr_huffman_tree(const BinTree<T>& bt);
+    void convert_from_list();
+    void convert_from_list(const std::list<T>& lst);
+    void convert_from_bintree(){ this->convert_from_list(this->pre_order_traverse()); }
+    void convert_from_bintree(const BinTree<T>& bt)
+      { this->convert_from_bintree(bt.pre_order_traverse()); }
+  private:
     void gnr_mini_tree();
   };
 }

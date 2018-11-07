@@ -4,18 +4,22 @@ using namespace Tree;
 typedef unsigned int uint;
 
 template<class T>
-HuffmanTree<T>::HuffmanTree(const std::list<T>& lst)
+HuffmanTree<T>::HuffmanTree(const BinTree<T>& bt)
 {
-  for(auto it = lst.begin(); it != lst.end(); ++it)
-    this->tree_lst.push_back(BinTree<T>(*it));
+  this->data = bt.get_self_data();
+  if(bt.has_left_child()) this->insert_left_tree( *bt.get_left_tree() );
+  if(bt.has_right_child()) this->insert_right_tree( *bt.get_right_tree() );
 }
 
 template<class T>
-void HuffmanTree<T>::gnr_huffman_tree()
+void HuffmanTree<T>::convert_from_list()
 {
-  while(tree_lst.size() > 1){ this->gnr_mini_tree(); }
+  while(this->tree_lst.size() > 1){ this->gnr_mini_tree(); }
+  // std::cout << "new-----" << *new_tree << std::endl;
+  // *this = *new_tree; ???? why can't I do this ???
+  // std::cout << "this-----" << *this << std::endl;
   this->release_self_node();
-  BinTree<T> *new_tree = new BinTree<T>(tree_lst.front());
+  BinTree<T> *new_tree = new BinTree<T>(this->tree_lst.front());
   this->data = new_tree->get_self_data();
   if(new_tree->has_left_child())
     this->insert_left_tree( *(new_tree->get_left_tree()) );
@@ -24,10 +28,11 @@ void HuffmanTree<T>::gnr_huffman_tree()
 }
 
 template<class T>
-void HuffmanTree<T>::gnr_huffman_tree(const BinTree<T>& bt)
+void HuffmanTree<T>::convert_from_list(const std::list<T>& lst)
 {
-  this->tree_lst = bt.get_all_node();
-  this->gnr_huffman_tree();
+  for(auto it = lst.begin(); it != lst.end(); ++it)
+    this->tree_lst.push_back(BinTree<T>(*it));
+  this->convert_from_list();
 }
 
 template<class T>

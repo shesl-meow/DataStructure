@@ -34,7 +34,7 @@ int main(){
   std::cout << "access `RL`: " << *(test_t3.get_spec_node("RL")) << std::endl;
   //auto t = test_t3.get_all_node();
 
-  HuffmanTree<double> test_hf(test_t3.get_all_node());
+  HuffmanTree<double> test_hf(test_t3.pre_order_traverse());
   //test_hf.gnr_huffman_tree();
   std::cout << test_hf;
   return 0;
