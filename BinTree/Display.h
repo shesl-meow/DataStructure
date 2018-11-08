@@ -55,18 +55,8 @@ namespace Display{
       std::string default_string = "  ");
     CodingMap(const Coding::HuffmanCoding* code, std::string default_string = "  "):
       BinTreeMap(code->get_coding_tree(), default_string), bind_char_nodes(code->get_char_nodes())
-      {
-        // this->draw();
-        // std::cout << "------------debug------------" << std::endl;
-        // std::cout << this->bind_char_nodes->size() << std::endl;
-        // for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
-        // {
-        //   std::cout << it->first << ": " << it->second <<std::endl;
-        //   std::cout << "?" << std::string(*(it->second)) << std::endl;
-        // }
-        // std::cout << "------------debug------------" << std::endl;
-      }
-
+      { this->draw(); }
+    
     void draw();
   };
 }

@@ -23,7 +23,6 @@ BinTree<T>* BinTree<T>::node(std::string path, char lc, char rc){
   return res;
 }
 
-using namespace std;
 template<class T>
 BinTree<T>::BinTree(const BinTree<T>& tree)
 {

@@ -31,10 +31,6 @@ void HuffmanCoding::link_char_nodes()
         break;
       }
   }
-  std::cout << "------------debug!!!------------" << std::endl;
-  for(auto it = this->char_nodes.begin(); it != this->char_nodes.end(); ++it)
-    std::cout << it->first << ": " << it->second <<std::endl;
-  std::cout << "------------debug!!!------------" << std::endl;
 }
 
 void HuffmanCoding::init_coding_tree()
@@ -51,12 +47,15 @@ void HuffmanCoding::encode(char left, char right)
   for(auto c = this->text.begin(); c != this->text.end(); ++c)
   {
     const BinTree<uint>* node = this->char_nodes.find(*c)->second;
+    std::string rev_encode = "";
     while( !(node->is_root_node()) )
     {
-      if(node->is_left_child()) encode_text += left;
-      else if(node->is_right_child()) encode_text += right;
+      if(node->is_left_child()) rev_encode += left;
+      else if(node->is_right_child()) rev_encode += right;
       node = node->get_parent_tree();
     }
+    std::reverse(rev_encode.begin(), rev_encode.end());
+    encode_text += rev_encode;
   }
   this->assign_text(encode_text);
 }
@@ -73,7 +72,7 @@ void HuffmanCoding::decode(char left, char right)
 
     if(node->is_leaf_node())
       for(auto iter = this->char_nodes.begin(); iter != this->char_nodes.end(); ++iter)
-        if(iter->second = node){
+        if(iter->second == node){
           decode_text += iter->first;
           node = this->coding_tree.get_spec_node("");
         }

@@ -30,23 +30,16 @@ namespace Coding{
     std::map<char, uint> char_times;
     Tree::HuffmanTree<uint> coding_tree;
     std::map<char, const Tree::BinTree<uint>* > char_nodes;
-    void init_coding_tree();
   public:
+    void init_coding_tree();
     HuffmanCoding(){}
-    HuffmanCoding(const std::string& str): AbstractCoding(str){}
+    HuffmanCoding(const std::string& str): AbstractCoding(str){ this->init_coding_tree(); }
 
     void encode(char left='0', char right='1') override;
     void decode(char left='0', char right='1') override;
 
     const Tree::HuffmanTree<uint>* get_coding_tree()const{ return &(this->coding_tree); }
-    
-    const std::map<char, const Tree::BinTree<uint>* >* get_char_nodes()const{
-      std::cout << "------------debug???------------" << std::endl;
-      for(auto it = this->char_nodes.begin(); it != this->char_nodes.end(); ++it)
-        std::cout << it->first << ": " << it->second <<std::endl;
-      std::cout << "------------debug???------------" << std::endl;
-      return temp;
-    }
+    const std::map<char, const Tree::BinTree<uint>* >* get_char_nodes()const{ return &(this->char_nodes);}
     std::string read_coding_tree()const;
     std::string read_char_times()const;
   };

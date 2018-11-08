@@ -23,16 +23,14 @@ void CodingMap::draw()
   this->root_row = (lft_map == nullptr) ? 0 : lft_map->row;
   std::stringstream ss;
   ss << this->bind_tree->get_self_data();
-  std::cout << "------------debug------------" << std::endl;
-  std::cout << this->bind_char_nodes->size() << std::endl;
-  for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
-    std::cout << it->first << ": " << it->second <<std::endl;
-  std::cout << "------------debug------------" << std::endl;
   if(this->bind_tree->is_leaf_node())
   {
     for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
       if(it->second == this->bind_tree){
-        ss << ": " << it->first;
+        if(it->first == '\n') ss << ": \\n";
+        else if(it->first == ' ') ss << ": [blank]";
+        else if(it->first == '\t') ss << ": \\t";
+        else ss << ": " << it->first;
         break;
       }
   }
