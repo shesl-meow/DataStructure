@@ -37,7 +37,27 @@ void BinTree<T>::update_left_tree(const BinTree<T>& lft_t)
 {
   if(this->lftChild == nullptr)
     throw std::logic_error("Can't update while left node exists!");
-  else *(this->lftChild) = lft_t;
+  else{
+    this->release_left_tree();
+    this->lftChild = new BinTree<T>(lft_t);
+    this->lftChild->parent = this;
+  }
+}
+
+template<class T>
+std::list<const BinTree<T>*> BinTree<T>::get_leaf_nodes()const
+{
+  std::list<const BinTree<T>*> result;
+  if(this->has_left_child()){
+    auto l_leaf = this->get_left_tree()->get_leaf_nodes();
+    result.insert(result.end(), l_leaf.begin(), l_leaf.end());
+  }
+  if(this->has_right_child()){
+    auto r_leaf = this->get_right_tree()->get_leaf_nodes();
+    result.insert(result.end(), r_leaf.begin(), r_leaf.end());
+  }
+  if(this->is_leaf_node()) result.push_back(this);
+  return result;
 }
 
 template<class T>
@@ -45,7 +65,11 @@ void BinTree<T>::update_right_tree(const BinTree<T>& rgt_t)
 {
   if(this->rgtChild == nullptr)
     throw std::logic_error("Can't update while right node exists!");
-  *(this->rgtChild) = rgt_t;
+  else{
+    this->release_right_tree();
+    this->rgtChild = new BinTree<T>(rgt_t);
+    this->rgtChild->parent = this;
+  }
 }
 
 template<class T>
@@ -60,7 +84,10 @@ void BinTree<T>::insert_left_tree(const BinTree<T>& lft_t)
 {
   if(this->lftChild != nullptr)
     throw std::logic_error("Can't insert while left node exists!");
-  this->lftChild = new BinTree<T>(lft_t);
+  else{
+    this->lftChild = new BinTree<T>(lft_t);
+    this->lftChild->parent = this;
+  }
 }
 
 template<class T>
@@ -68,7 +95,10 @@ void BinTree<T>::insert_right_tree(const BinTree<T>& rgt_t)
 {
   if(this->rgtChild != nullptr)
     throw std::logic_error("Can't insert while right node exists!");
-  this->rgtChild = new BinTree<T>(rgt_t);
+  else{
+    this->rgtChild = new BinTree<T>(rgt_t);
+    this->rgtChild->parent = this;
+  }
 }
 
 template<class T>
@@ -197,6 +227,11 @@ uint BinTree<T>::depth()const{
     result = (result > rgt_depth) ? result : rgt_depth;
   }
   return result;
+}
+
+template<class T>
+BinTree<T>::operator std::string()const{
+  return std::string(Display::BinTreeMap<T>(this));
 }
 
 template<class T>

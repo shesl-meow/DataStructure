@@ -13,6 +13,7 @@ namespace Tree{
   class BinTree{
   protected:
     T data = T(0);
+    BinTree* parent = nullptr;
     BinTree* lftChild = nullptr;
     BinTree* rgtChild = nullptr;
     // can't access specific node via non const method
@@ -26,8 +27,10 @@ namespace Tree{
     T get_self_data()const{ return this->data; }
     const BinTree* get_left_tree()const{ return this->lftChild; }
     const BinTree* get_right_tree()const{ return this->rgtChild; }
+    const BinTree* get_parent_tree()const{ return this->parent; }
     const BinTree* get_spec_node(std::string path, char lc = 'L', char rc = 'R')const
       { return (const_cast<BinTree*>(this))->node(path, lc, rc); }
+    std::list<const BinTree*> get_leaf_nodes()const;
 
     void update_self_node(T ele){ this->data = ele; }
     void update_left_tree(const BinTree& lft_t);
@@ -47,11 +50,16 @@ namespace Tree{
     std::list<T> mid_order_traverse()const;
     std::list<T> post_order_traverse()const;
     // check atrribute function which is const function
-    bool has_left_child()const{return this->lftChild != nullptr; }
-    bool has_right_child()const{return this->rgtChild != nullptr; }
+    bool has_left_child()const{ return this->lftChild != nullptr; }
+    bool has_right_child()const{ return this->rgtChild != nullptr; }
+    bool is_left_child()const{ return (this->parent) ? (this->parent->lftChild == this) : false; }
+    bool is_right_child()const{ return (this->parent) ? (this->parent->rgtChild == this) : false; }
+    bool is_root_node()const{ return this->parent == nullptr; }
+    bool is_leaf_node()const{ return this->lftChild == nullptr && this->rgtChild == nullptr; }
     uint count_node_number()const;
     uint depth()const;
     // display function: display the object on the screen as branch view
+    operator std::string()const;
     void display(std::ostream& out)const;
 
     struct data_less_than{
@@ -78,6 +86,3 @@ namespace Tree{
     void gnr_mini_tree();
   };
 }
-
-#include "BinTree.tpp"
-#include "HuffmanTree.tpp"

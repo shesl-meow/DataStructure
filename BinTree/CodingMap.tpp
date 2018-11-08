@@ -1,32 +1,41 @@
 #pragma once
 using namespace Display;
-
 typedef unsigned int uint;
 
+CodingMap::CodingMap(const Tree::BinTree<uint> *tree,
+  const std::map<char, const Tree::BinTree<uint>*>* char_nodes,
+  std::string default_string):
+    BinTreeMap(tree, default_string),
+    bind_char_nodes(char_nodes)
+  { this->draw(); }
 
-template<class T>
-BinTreeMap<T>::BinTreeMap(const Tree::BinTree<T> *tree, std::string default_string):
-    bind_tree(tree),
-    DisplayMap(
-      tree->count_node_number(),
-      tree->depth()*2 - 1,
-      default_string
-    ){ this->draw(); }
-
-template<class T>
-void BinTreeMap<T>::draw(){
-  BinTreeMap<T> *lft_map = nullptr, *rgt_map = nullptr;
+void CodingMap::draw()
+{
+  BinTreeMap<uint> *lft_map = nullptr, *rgt_map = nullptr;
   if(this->bind_tree->has_left_child()){
-    lft_map = new BinTreeMap<T>(this->bind_tree->get_left_tree());
+    lft_map = new CodingMap(this->bind_tree->get_left_tree(), this->bind_char_nodes);
     this->set_sub_area(0, 2, lft_map);
   }
   if(this->bind_tree->has_right_child()){
-    rgt_map = new BinTreeMap<T>(this->bind_tree->get_right_tree());
+    rgt_map = new CodingMap(this->bind_tree->get_right_tree(), this->bind_char_nodes);
     this->set_sub_area(lft_map->row + 1, 2, rgt_map);
   }
   this->root_row = (lft_map == nullptr) ? 0 : lft_map->row;
   std::stringstream ss;
   ss << this->bind_tree->get_self_data();
+  std::cout << "------------debug------------" << std::endl;
+  std::cout << this->bind_char_nodes->size() << std::endl;
+  for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
+    std::cout << it->first << ": " << it->second <<std::endl;
+  std::cout << "------------debug------------" << std::endl;
+  if(this->bind_tree->is_leaf_node())
+  {
+    for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
+      if(it->second == this->bind_tree){
+        ss << ": " << it->first;
+        break;
+      }
+  }
 
   // begin to draw the tree branch
   if(lft_map != nullptr)
@@ -46,10 +55,4 @@ void BinTreeMap<T>::draw(){
     this->string_map[this->root_row + rgt_map->root_row + 1][1] = "--";
     delete rgt_map;
   }
-}
-
-template<class T>
-std::ostream& operator<<(std::ostream& out, Display::BinTreeMap<T> dm)
-{
-  return out << std::string(dm);
 }

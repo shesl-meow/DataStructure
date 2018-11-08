@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Tree.h"
+#include "Header.h"
 
 int main(){
   std::cout << "Hello World!" << std::endl;
@@ -37,5 +37,19 @@ int main(){
   HuffmanTree<double> test_hf(test_t3.pre_order_traverse());
   //test_hf.gnr_huffman_tree();
   std::cout << test_hf;
+
+  auto leaf_node = test_hf.get_leaf_nodes();
+  for(auto l = leaf_node.begin(); l != leaf_node.end(); ++l)
+    std::cout << (*l)->get_self_data() << std::endl;
+
+  Coding::HuffmanCoding test_coding("Hello World?");
+  // Display::CodingMap test_dis(&test_coding);
+  std::cout << "Origin:" << test_coding.read_text() << std::endl;
+  test_coding.encode();
+  std::cout << "Encode:" << test_coding.read_text() << std::endl;
+  test_coding.decode();
+  std::cout << "Decode:" << test_coding.read_text() << std::endl;
+  std::cout << "Times:" << test_coding.read_char_times() << std::endl;
+  std::cout << "Tree: " << test_coding.read_coding_tree() << std::endl;
   return 0;
 }

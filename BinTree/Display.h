@@ -4,7 +4,9 @@
 #include <exception>
 #include <stdexcept>
 #include <sstream>
+#include <map>
 #include "Tree.h"
+#include "Coding.h"
 
 typedef unsigned int uint;
 
@@ -41,8 +43,30 @@ namespace Display{
     uint get_map_width()const{ return this->bind_tree->count_node_number(); }
     uint get_map_depth()const{ return this->bind_tree->depth()*2 - 1; }
     void draw();
+    friend class CodingMap;
+  };
+
+  class CodingMap: public BinTreeMap<uint>{
+  protected:
+    const std::map<char, const Tree::BinTree<uint>*>* bind_char_nodes;
+  public:
+    CodingMap(const Tree::BinTree<uint> *tree,
+      const std::map<char, const Tree::BinTree<uint>*>* char_nodes,
+      std::string default_string = "  ");
+    CodingMap(const Coding::HuffmanCoding* code, std::string default_string = "  "):
+      BinTreeMap(code->get_coding_tree(), default_string), bind_char_nodes(code->get_char_nodes())
+      {
+        // this->draw();
+        // std::cout << "------------debug------------" << std::endl;
+        // std::cout << this->bind_char_nodes->size() << std::endl;
+        // for(auto it = this->bind_char_nodes->begin(); it != this->bind_char_nodes->end(); ++it)
+        // {
+        //   std::cout << it->first << ": " << it->second <<std::endl;
+        //   std::cout << "?" << std::string(*(it->second)) << std::endl;
+        // }
+        // std::cout << "------------debug------------" << std::endl;
+      }
+
+    void draw();
   };
 }
-
-#include "DisplayMap.tpp"
-#include "BinTreeMap.tpp"
