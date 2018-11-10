@@ -87,7 +87,11 @@ void assign()
     cout << "Illegal please enter `m` or `o`\n"
       "Enter a multiple lines article or one line statement?(m/o)";
   }
-  hc.init_coding_tree();
+  cout << "rebuild tree??(y/n)";
+  std::string sign = "";
+  std::cin >> sign;
+  if(sign == "y") hc.init_coding_tree();
+  else if(sign == "n") return;
 }
 
 void encode()

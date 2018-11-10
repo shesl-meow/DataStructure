@@ -68,7 +68,10 @@ void HuffmanCoding::decode(char left, char right)
   {
     if(*c == left) node = node->get_left_tree();
     else if(*c == right) node = node->get_right_tree();
-    else throw std::logic_error("Illegal character when decode.");
+    else{
+      throw std::logic_error("Illegal character when decode.");
+      return;
+    }
 
     if(node->is_leaf_node())
       for(auto iter = this->char_nodes.begin(); iter != this->char_nodes.end(); ++iter)
@@ -90,7 +93,11 @@ std::string HuffmanCoding::read_char_times()const
   std::stringstream ss;
   ss << std::endl << std::string(this->char_times.size()*8, '-') + '-' << std::endl;
   for(auto it = this->char_times.begin(); it != this->char_times.end(); ++it)
-    ss << "|" << it->first << "\t";
+  {
+    if(it->first == '\n') ss << "|\\n\t";
+    else if(it->first == ' ') ss << "|[ ]\t";
+    else ss << "|" << it->first << "\t";
+  }
   ss << "|" << std::endl;
   for(auto it = this->char_times.begin(); it != this->char_times.end(); ++it)
     ss << "|" << it->second << "\t";
