@@ -4,7 +4,7 @@ from sys import argv
 # argv[2] ==> stand for the 01-sequence for decoding
 
 
-huff = process('./main')
+huff = process('./main.out')
 huff.recv()
 
 # assign origin text. build huffman tree and flush buffer

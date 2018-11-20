@@ -1,4 +1,4 @@
-PROG = main
+PROG = main.out
 CC = g++
 FLAGS = --std=c++11 -g
 
