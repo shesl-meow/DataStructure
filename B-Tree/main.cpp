@@ -1,6 +1,11 @@
-#include "Tree.h"
+#include "mainwindow.h"
+#include <QApplication>
 
-int main(){
-	BTree<int,3> t;
-	return 0;
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }
