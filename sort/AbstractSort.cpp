@@ -21,6 +21,14 @@ inline void AbstractSort<T>::swap(uint index1, uint index2){
 }
 
 template<class T>
+inline void AbstractSort<T>::assign(uint start, uint len, T* data)
+{
+    assert(start + len <= this->length);
+    for(uint i = 0; i < len; ++i)
+        this->src_list[start + i] = data[i];
+}
+
+template<class T>
 std::ostream& AbstractSort<T>::display(std::ostream& out)const{
     for(uint i = 0; i < this->length; ++i)
         out << this->src_list[i] << " ";
