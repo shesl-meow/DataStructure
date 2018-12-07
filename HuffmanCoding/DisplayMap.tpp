@@ -3,7 +3,7 @@ using namespace Display;
 
 typedef unsigned int uint;
 
-DisplayMap::DisplayMap(std::string default_string){
+DisplayMap::DisplayMap(std::string default_string): default_string(default_string){
   this->string_map = new std::string*[1];
   this->string_map[0] = new std::string[1];
   this->string_map[0][0] = default_string;
