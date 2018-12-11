@@ -4,6 +4,7 @@ using namespace Sort;
 
 template<class T>
 void SelectionSort<T>::sort(){
+    assert(!this->is_sorted);
     for(uint i = 0; i < this->length; ++i){
         uint next_pos = i;
         for(uint j = i + 1; j < this->length; ++j){
@@ -11,6 +12,7 @@ void SelectionSort<T>::sort(){
         }
         if(next_pos != i) this->swap(i, next_pos);
     }
+    this->is_sorted = true;
 }
 
 template<class T>

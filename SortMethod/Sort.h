@@ -2,6 +2,7 @@
 #include <fstream>
 #include <functional>
 #include <list>
+#include <cassert>
 
 typedef unsigned int uint;
 
@@ -14,15 +15,29 @@ namespace Sort{
         bool is_ascend;
         bool is_sorted = false;
 
-        inline bool compare(uint index1, uint index2)const;
+        uint compare_times = 0;
+        uint swap_times = 0;
+        uint assign_times = 0;
+
+        inline bool compare(uint index1, uint index2);
         inline void swap(uint index1, uint index2);
         inline void assign(uint start, uint len, T* data);
     public:
         AbstractSort(T* src, uint l, bool ascend = true):
             src_list(src), length(l), is_ascend(ascend) {}
+        ~AbstractSort(){}
         
         virtual void sort() = 0;
         std::ostream& display(std::ostream& out)const;
+        std::ostream& detail(std::ostream& out)const;
+    };
+
+    template<class T>
+    class NothingSort: public AbstractSort<T>{
+    public:
+        NothingSort(T* src, uint l, bool ascend = true):
+            AbstractSort<T>(src, l, ascend) { this->sort(); }
+        void sort() override{/*I will do nothing*/}
     };
 
     template<class T>

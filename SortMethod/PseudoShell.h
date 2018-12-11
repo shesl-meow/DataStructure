@@ -5,10 +5,21 @@
 #include "HashString.h"
 using namespace std;
 
+list<double> disorder_seq;
+
 bool is_init = true;
 bool is_ascend = true;
-double* number_sequence;
-uint sequence_length = 0;
+double* num_seq;
+uint seq_len = 0;
+
+Sort::AbstractSort<double> *sort_ptr = nullptr;
+void release(){
+  if(sort_ptr != nullptr){
+    delete sort_ptr;
+    sort_ptr = nullptr;
+  }
+}
+
 
 void ExeCommand(string pseudo_command);
 void PseudoShell(){
@@ -29,23 +40,23 @@ void PseudoShell(){
 void help();
 void assign();
 void toggle(){ is_ascend = !is_ascend; }
+void check();
+void detail();
+void reset();
 void ExeCommand(string pseudo_command)
 {
   switch (hash_(pseudo_command.c_str())) {
     case "help"_hash: help(); break;
     case "assign"_hash: assign(); break;
     case "toggle"_hash: toggle(); break;
-    case "bubble"_hash: 
-        cout << Sort::BubbleSort<double>(number_sequence, sequence_length, is_ascend); break;
-    case "insert"_hash:
-        cout << Sort::InsertSort<double>(number_sequence, sequence_length, is_ascend); break;
-    case "select"_hash:
-        cout << Sort::SelectionSort<double>(number_sequence, sequence_length, is_ascend); break;
-    case "merge"_hash:
-        cout << Sort::MergeSort<double>(number_sequence, sequence_length, is_ascend); break;
-    case "shell"_hash:
-        cout << Sort::ShellSort<double>(
-          number_sequence, sequence_length, is_ascend, [](uint an){ return 3*an - 1; }); break;
+    case "Bubble"_hash: release(); sort_ptr=new Sort::BubbleSort<double>(num_seq, seq_len, is_ascend); break;
+    case "Insert"_hash: release(); sort_ptr=new Sort::InsertSort<double>(num_seq, seq_len, is_ascend); break;
+    case "Select"_hash: release(); sort_ptr=new Sort::SelectionSort<double>(num_seq, seq_len, is_ascend); break;
+    case "Merge"_hash: release(); sort_ptr=new Sort::MergeSort<double>(num_seq, seq_len, is_ascend); break;
+    case "Shell"_hash: release(); sort_ptr=new Sort::ShellSort<double>(num_seq, seq_len, is_ascend); break;
+    case "check"_hash: check(); break;
+    case "detail"_hash: detail(); break;
+    case "reset"_hash: reset(); break;
     case "exit"_hash: exit(0); break;
     default: help(); break;
   }
@@ -57,11 +68,16 @@ void help()
   string manual=
     "[help]  : see help manual.\n"
     "[assign]: assign the number sequence for sort usage.\n"
+    "[detail]: display the sort detail.\n"
     "[toggle]: toggle status between ascend and descend.\n"
-    "[bubble]: apply bubble sort on the current sequence.\n"
-    "[insert]: apply insert sort on the current sequence.\n"
-    "[select]: apply select sort on the current sequence.\n"
-    "[merge]: apply merge sort on the current sequence.\n";
+    "[Bubble]: apply bubble sort on the current sequence.\n"
+    "[Insert]: apply insert sort on the current sequence.\n"
+    "[Select]: apply select sort on the current sequence.\n"
+    "[Merge] : apply merge sort on the current sequence.\n"
+    "[Shell] : apply shell sort on the current sequence.\n"
+    "[check] : check the sort result.\n"
+    "[detail]: display the detail of latest sort method.\n"
+    "[reset] : disorder the ordered sequence to the begining state.\n";
   cout << manual;
 }
 
@@ -69,15 +85,33 @@ void assign()
 {
   cout << "Assign the list waiting to be sorted, any illegal input will end input." << endl;
   double tmp;
-  list<double> input_list;
-  while(cin >> tmp) input_list.push_front(tmp);
-  cin.clear();
+  while(cin >> tmp) disorder_seq.push_back(tmp);
+  cin.clear(); // The cin stream corrupt while get illegal char.
+  reset();
+}
 
-  if(!is_init) delete []number_sequence;
+void check(){
+  if(sort_ptr == nullptr){
+    for(uint i = 0; i < seq_len; ++i)
+      cout << num_seq[i] << " ";
+    cout << endl;
+  }else sort_ptr->display(cout);
+}
+
+void detail(){
+  if(sort_ptr == nullptr){
+    cout << "The sort point is nullptr." << endl;
+  }else sort_ptr->detail(cout);
+}
+
+void reset(){
+  if(!is_init) delete []num_seq;
   else is_init = false;
 
-  sequence_length = input_list.size();
-  number_sequence = new double[sequence_length];
+  seq_len = disorder_seq.size();
+  num_seq = new double[seq_len];
   size_t i = 0;
-  for(auto in: input_list) number_sequence[i++] = in;
+  for(auto in: disorder_seq) num_seq[i++] = in;
+
+  release();
 }

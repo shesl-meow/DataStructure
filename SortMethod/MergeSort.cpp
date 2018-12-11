@@ -23,6 +23,7 @@ inline void MergeSort<T>::merge(uint start1, uint len1, uint start2, uint len2)
 
 template<class T>
 void MergeSort<T>::sort(){
+    assert(!this->is_sorted);
     for(uint i = 1; i < this->length; i *= 2){
         for(uint pr = 0; /*step < this->length*/; pr += i*2){
             if(pr + i*2 < this->length){
@@ -34,6 +35,7 @@ void MergeSort<T>::sort(){
             break;
         }
     }
+    this->is_sorted = true;
 }
 
 template<class T>
