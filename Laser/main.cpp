@@ -4,7 +4,7 @@ using namespace std;
 
 template<class T>
 void show(std::list<T> lst){
-    for(auto i: lst) cout << i;
+    for(auto i: lst) cout << i << ' ';
 }
 
 int main(){
@@ -12,7 +12,11 @@ int main(){
     cb.interactive_init();
 
     auto ptl = cb.potential_lines();
-    cout << "Potential lines:"; show(ptl); cout << endl;
+	if(ptl.size() == 0){
+		cout << "You can't get any conduction row with provided laser size." << endl;
+		return 1;
+	}
+    cout << endl << "Potential lines:"; show(ptl); cout << endl;
 
     auto mode = cb.mode_data(ptl);
     cout << "Mode:"; show(mode); cout << endl;
@@ -23,7 +27,7 @@ int main(){
 
     cout << string(cb);
     cout << string(cb.get_column_size(), '|') << endl;
-    show(laser);
+    for(auto i: laser) cout << i;
     cout << endl << string(cb.get_column_size(), '|');
     cb.emit_laser(laser);
     cout << std::string(cb);
