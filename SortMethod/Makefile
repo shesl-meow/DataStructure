@@ -5,4 +5,3 @@ SRC = main.cpp
 
 $PROG:
 	$(CC) $(FLAGS) -o $(PROG) $(SRC)
-	./main.out
