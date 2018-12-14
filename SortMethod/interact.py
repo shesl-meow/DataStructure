@@ -1,7 +1,9 @@
 from pwn import *
 import random
+import os
 import time
 
+os.system('make')
 f = open('result.md', 'w')
 f.write('# Test Result.\n\n')
 
@@ -47,3 +49,4 @@ for method in sort_method:
 
 s.close()
 f.close()
+os.system('typora result.md')
