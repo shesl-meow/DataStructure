@@ -10,7 +10,7 @@
 
 *detail*:
 Swap and compare times of this sort method are show below:
-- The swap times: 99737063
+- The swap times: 99886380
 - The compare times: 199990000
 - The directly assign times: 0
 
@@ -19,14 +19,14 @@ Swap and compare times of this sort method are show below:
 [Bubble](./data/Bubble.txt)
 
 *time*:
-3.1143848896s
+3.15309405327s
 
 ### Insert
 
 *detail*:
 Swap and compare times of this sort method are show below:
-- The swap times: 99737063
-- The compare times: 99757058
+- The swap times: 99886380
+- The compare times: 99906366
 - The directly assign times: 0
 
 
@@ -34,13 +34,13 @@ Swap and compare times of this sort method are show below:
 [Insert](./data/Insert.txt)
 
 *time*:
-1.60066699982s
+1.60066103935s
 
 ### Select
 
 *detail*:
 Swap and compare times of this sort method are show below:
-- The swap times: 19987
+- The swap times: 19988
 - The compare times: 199990000
 - The directly assign times: 0
 
@@ -49,14 +49,14 @@ Swap and compare times of this sort method are show below:
 [Select](./data/Select.txt)
 
 *time*:
-1.53657007217s
+1.55616497993s
 
 ### Shell
 
 *detail*:
 Swap and compare times of this sort method are show below:
-- The swap times: 69546989
-- The compare times: 69583135
+- The swap times: 332742
+- The compare times: 513902
 - The directly assign times: 0
 
 
@@ -64,14 +64,14 @@ Swap and compare times of this sort method are show below:
 [Shell](./data/Shell.txt)
 
 *time*:
-1.09659099579s
+0.00980687141418s
 
 ### Merge
 
 *detail*:
 Swap and compare times of this sort method are show below:
 - The swap times: 0
-- The compare times: 267408
+- The compare times: 267334
 - The directly assign times: 292640
 
 
@@ -79,5 +79,5 @@ Swap and compare times of this sort method are show below:
 [Merge](./data/Merge.txt)
 
 *time*:
-0.00617814064026s
+0.00671005249023s
 

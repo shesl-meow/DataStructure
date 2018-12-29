@@ -30,6 +30,8 @@ namespace Sort{
         virtual void sort() = 0;
         std::ostream& display(std::ostream& out)const;
         std::ostream& detail(std::ostream& out)const;
+
+		bool debug = false;
     };
 
     template<class T>
@@ -71,9 +73,10 @@ namespace Sort{
         std::list<uint> sequence;
 
         inline void generate_seq();
+		inline void sort_block(uint beg, uint step);
     public:
         ShellSort(T* src, uint l, bool ascend = true, 
-            std::function<uint(uint)> f = [](uint an){ return 3*an - 1; }):
+            std::function<uint(uint)> f = [](uint an){ return uint(an/3) + 1; }):
             AbstractSort<T>(src, l, ascend), forward_f(f) { this->sort(); }
         void sort() override;
     };
