@@ -90,4 +90,14 @@ namespace Sort{
             AbstractSort<T>(src, l, ascend) { this->sort(); }
         void sort() override;
     };
+
+    template<class T>
+    class QuickSort: public AbstractSort<T>{
+    private:
+        void partialize(uint start, uint len, uint pivot);
+    public:
+        QuickSort(T* src, uint l, bool ascend = true):
+            AbstractSort<T>(src, l, ascend) { this->sort(); }
+        void sort() override;
+    };
 }
